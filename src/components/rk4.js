@@ -1,4 +1,9 @@
+import LineChartRK4 from "./rk4-chart.js";
+
 export default {
+  components: {
+    LineChartRK4,
+  },
   name: "rk4",
 
   data() {
@@ -6,24 +11,44 @@ export default {
       k: 3,
       m: 1,
       constanteAmortiguacion: 2,
-      resultadosVariacionesLibres: [],
-      resultadosVariacionesLibresAmortiguadas: [],
+      resultadosVibracionesLibres: [],
+      isResultadosVibracionesLibres: false,
+      resultadosVibracionesLibresAmortiguadas: [],
+      isResultadosVibracionesLibresAmortiguadas: false,
+      resultadosVibracionesForzadasAmortiguadas: [],
+      testChart: [
+        {
+          x: 10,
+          y: 20,
+        },
+        {
+          x: 15,
+          y: 10,
+        },
+      ],
     };
   },
 
   methods: {
     /*Ejericio 2*/
-    variacionesLibres_Funcion1Sistema(x, y) {
+    vibracionesLibres_Funcion1Sistema(x, y) {
       return -((this.k * y) / this.m);
     },
-    variacionesLibres_Funcion2Sistema(x) {
+    vibracionesLibres_Funcion2Sistema(x) {
       return x;
     },
     /*Ejercicio 3*/
-    variacionesLibresAmortiguadas_Funcion1Sistema(x, y) {
+    vibracionesLibresAmortiguadas_Funcion1Sistema(x, y) {
       return (-this.constanteAmortiguacion * x - this.k * y) / this.m;
     },
-    variacionesLibresAmortiguadas_Funcion2Sistema(x) {
+    vibracionesLibresAmortiguadas_Funcion2Sistema(x) {
+      return x;
+    },
+    /*Ejercicio 4*/
+    vibracionesForzadasAmortiguadas_Funcion1Sistema(x, y) {
+      return (-this.constanteAmortiguacion * x - this.k * y) / this.m;
+    },
+    vibracionesForzadasAmortiguadas_Funcion2Sistema(x) {
       return x;
     },
 
@@ -52,15 +77,17 @@ export default {
       let valores = [];
       valores.push(objInicial);
 
-      console.log("Valor n: " + n);
+      console.log(
+        "Valor n: " + n
+      ); /*
       console.log("Tamaño valores: " + valores.length);
-      console.log("Inicio: " + inicio + " Fin: " + fin + " h: " + h);
+      console.log("Inicio: " + inicio + " Fin: " + fin + " h: " + h);*/
 
       for (let t = inicio + h; t <= fin; t = t + h) {
-        console.log("t: " + t);
-        console.log("Valores: ", valores);
+        //console.log("t: " + t);
+        //console.log("Valores: ", valores);
         const kPrevio = valores[valores.length - 1];
-        console.log("KPrevio: ", kPrevio);
+        //console.log("KPrevio: ", kPrevio);
         const nuevoValor = this.rk4_calculoParcial(
           funcion1Sistema,
           funcion2Sistema,
@@ -76,24 +103,28 @@ export default {
   },
   mounted() {
     console.log("Ejercicio 2");
-    this.resultadosVariacionesLibres = this.rk4_Sistema(
-      this.variacionesLibres_Funcion1Sistema,
-      this.variacionesLibres_Funcion2Sistema,
+    this.resultadosVibracionesLibres = this.rk4_Sistema(
+      this.vibracionesLibres_Funcion1Sistema,
+      this.vibracionesLibres_Funcion2Sistema,
       0,
       3,
       0,
       5,
       0.1
     );
+    this.resultadosVibracionesLibres.forEach((e) => delete e.x);
     console.log("Ejercicio 3");
-    this.resultadosVariacionesLibresAmortiguadas = this.rk4_Sistema(
-      this.variacionesLibresAmortiguadas_Funcion1Sistema,
-      this.variacionesLibresAmortiguadas_Funcion2Sistema,
+    this.resultadosVibracionesLibresAmortiguadas = this.rk4_Sistema(
+      this.vibracionesLibresAmortiguadas_Funcion1Sistema,
+      this.vibracionesLibresAmortiguadas_Funcion2Sistema,
       0,
       3,
       0,
       5,
       0.1
     );
+    this.resultadosVibracionesLibresAmortiguadas.forEach((e) => delete e.x);
+    this.isResultadosVibracionesLibres = true;
+    this.isResultadosVibracionesLibresAmortiguadas = true;
   },
 };
