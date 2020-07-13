@@ -1,12 +1,13 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
     <rk4> </rk4>
   </div>
 </template>
 
 <script>
 import rk4 from "./components/rk4.vue";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 
 export default {
   name: "App",
@@ -16,7 +17,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -24,10 +25,8 @@ export default {
   text-align: center;
   color: white;
   margin-top: 60px;
-  background-color: #2c3e50;
 }
 
 body {
-  background-color: #2c3e50;
 }
 </style>

@@ -7,6 +7,7 @@ export default {
       m: 1,
       constanteAmortiguacion: 2,
       resultadosVariacionesLibres: [],
+      resultadosVariacionesLibresAmortiguadas: [],
     };
   },
 
@@ -26,7 +27,7 @@ export default {
       return x;
     },
 
-    rk4_calculoParcial(funcion1Sistema, funcion2Sistema, x, y, h) {
+    rk4_calculoParcial(funcion1Sistema, funcion2Sistema, x, y, h, t) {
       let xk1 = funcion1Sistema(x, y);
       let yk1 = funcion2Sistema(x, y);
 
@@ -42,12 +43,12 @@ export default {
       let calculoParcialX = x + (h / 6) * (xk1 + 2 * xk2 + 2 * xk3 + xk4);
       let calculiParcialY = y + (h / 6) * (yk1 + 2 * yk2 + 2 * yk3 + yk4);
 
-      return { x: calculoParcialX, y: calculiParcialY, h: h };
+      return { t: t, x: calculoParcialX, y: calculiParcialY };
     },
 
     rk4_Sistema(funcion1Sistema, funcion2Sistema, x0, y0, inicio, fin, h) {
       let n = (fin - inicio) / h;
-      const objInicial = { x: x0, y: y0, h: h };
+      const objInicial = { t: inicio, x: x0, y: y0 };
       let valores = [];
       valores.push(objInicial);
 
@@ -85,7 +86,7 @@ export default {
       0.1
     );
     console.log("Ejercicio 3");
-    this.resultadosVariacionesLibres = this.rk4_Sistema(
+    this.resultadosVariacionesLibresAmortiguadas = this.rk4_Sistema(
       this.variacionesLibresAmortiguadas_Funcion1Sistema,
       this.variacionesLibresAmortiguadas_Funcion2Sistema,
       0,
