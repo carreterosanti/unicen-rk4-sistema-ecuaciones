@@ -1,19 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <rk4> </rk4>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import rk4 from "./components/rk4.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    rk4,
+  },
+};
 </script>
 
 <style>
@@ -22,7 +22,12 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: white;
   margin-top: 60px;
+  background-color: #2c3e50;
+}
+
+body {
+  background-color: #2c3e50;
 }
 </style>
