@@ -25,8 +25,10 @@ export default {
   text-align: center;
   color: white;
   margin-top: 60px;
+  background-color: #2c3e50;
 }
 
 body {
+  background-color: #2c3e50;
 }
 </style>

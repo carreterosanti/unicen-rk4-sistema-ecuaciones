@@ -4,8 +4,19 @@
       UNICEN Runge Kutta Sistemas - Sistema de Ecuaciones - Santiago Carretero
     </div>
     <div style="padding: 5%">
-      <h2></h2>
-      <b-table striped hover :items="resultadosVariacionesLibres"> </b-table>
+      <h2>Runge Kutta Variaciones Libres</h2>
+      <b-table striped hover dark :items="resultadosVariacionesLibres">
+      </b-table>
+    </div>
+    <div style="padding: 5%">
+      <h2>Runge Kutta Variaciones Libres Amortiguadas</h2>
+      <b-table
+        striped
+        hover
+        dark
+        :items="resultadosVariacionesLibresAmortiguadas"
+      >
+      </b-table>
     </div>
   </div>
 </template>
