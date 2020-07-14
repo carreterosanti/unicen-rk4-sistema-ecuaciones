@@ -109,6 +109,7 @@ export default {
       console.log("Inicio: " + inicio + " Fin: " + fin + " h: " + h);*/
 
       for (let t = inicio + h; t <= fin; t = t + h) {
+        console.log("Suma h + t", h, t);
         //console.log("t: " + t);
         //console.log("Valores: ", valores);
         const kPrevio = valores[valores.length - 1];
