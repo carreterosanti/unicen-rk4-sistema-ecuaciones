@@ -16,10 +16,18 @@ main {
     background-color: $secondary;
     border-color: $secondary;
     color: white;
+    box-shadow: none;
   }
   &.btn-secondary:hover {
     background-color: $secondary-dark;
     border-color: $secondary-dark;
     color: white;
+    box-shadow: none;
+  }
+  &.btn-secondary:focus {
+    background-color: $secondary;
+    border-color: $secondary;
+    color: white;
+    box-shadow: none;
   }
 }

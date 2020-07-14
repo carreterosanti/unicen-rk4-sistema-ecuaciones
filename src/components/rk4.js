@@ -16,7 +16,6 @@ export default {
       constanteAmortiguacion: 2,
       f_0: 3,
       w: 1,
-      w2_0: this.k / this.m,
       resultadosVibracionesLibres: [],
       resultadosVibracionesLibresAmortiguadas: [],
       resultadosVibracionesForzadasAmortiguadas: [],
@@ -24,6 +23,12 @@ export default {
       isResultadosVibracionesLibresAmortiguadas: false,
       isResultadosVibracionesForzadasAmortiguadas: false,
     };
+  },
+
+  computed: {
+    w2_0() {
+      return this.k / this.m;
+    },
   },
 
   methods: {
@@ -47,12 +52,12 @@ export default {
     vibracionesForzadasAmortiguadas_Funcion1Sistema(param) {
       return (
         (this.f_0 * Math.cos(this.w * param.t)) / this.m -
-        (this.h / this.m) * param.x -
+        (this.constanteAmortiguacion / this.m) * param.x -
         this.w2_0 * param.y
       );
     },
     vibracionesForzadasAmortiguadas_Funcion2Sistema(param) {
-      return param.x;
+      return param.x * 1;
     },
 
     rk4_calculoParcial(funcion1Sistema, funcion2Sistema, x, y, h, t) {
@@ -75,6 +80,7 @@ export default {
         y: y + 0.5 * h * yk2,
         t: t,
       });
+
       let yk3 = funcion2Sistema({
         x: x + 0.5 * h * xk2,
         y: y + 0.5 * h * yk2,
@@ -84,8 +90,8 @@ export default {
       let xk4 = funcion1Sistema({ x: x + h * xk3, y: y + h * yk3, t: t });
       let yk4 = funcion2Sistema({ x: x + h * xk3, y: y + h * yk3, t: t });
 
-      let calculoParcialX = x + (h / 6) * (xk1 + 2 * xk2 + 2 * xk3 + xk4, t);
-      let calculiParcialY = y + (h / 6) * (yk1 + 2 * yk2 + 2 * yk3 + yk4, t);
+      let calculoParcialX = x + (h / 6) * (xk1 + 2 * xk2 + 2 * xk3 + xk4);
+      let calculiParcialY = y + (h / 6) * (yk1 + 2 * yk2 + 2 * yk3 + yk4);
 
       return { t: t, x: calculoParcialX, y: calculiParcialY };
     },
@@ -128,7 +134,7 @@ export default {
       0,
       3,
       0,
-      5,
+      15,
       0.1
     );
     this.resultadosVibracionesLibres.forEach((e) => delete e.x);
@@ -140,7 +146,7 @@ export default {
       0,
       3,
       0,
-      5,
+      15,
       0.1
     );
     this.resultadosVibracionesLibresAmortiguadas.forEach((e) => delete e.x);
@@ -152,7 +158,7 @@ export default {
       0,
       3,
       0,
-      5,
+      15,
       0.1
     );
     this.resultadosVibracionesForzadasAmortiguadas.forEach((e) => delete e.x);
