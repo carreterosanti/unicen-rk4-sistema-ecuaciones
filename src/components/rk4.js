@@ -1,72 +1,91 @@
-import LineChartRK4 from "./rk4-chart.js";
+import LineChartRK4 from "./rk4-chart";
+import RK4Result from "./rk4-result.vue";
+import { BFileText } from "bootstrap-vue";
 
 export default {
   components: {
     LineChartRK4,
+    RK4Result,
+    BFileText,
   },
-  name: "rk4",
 
   data() {
     return {
       k: 3,
       m: 1,
       constanteAmortiguacion: 2,
+      f_0: 3,
+      w: 1,
+      w2_0: this.k / this.m,
       resultadosVibracionesLibres: [],
-      isResultadosVibracionesLibres: false,
       resultadosVibracionesLibresAmortiguadas: [],
-      isResultadosVibracionesLibresAmortiguadas: false,
       resultadosVibracionesForzadasAmortiguadas: [],
-      testChart: [
-        {
-          x: 10,
-          y: 20,
-        },
-        {
-          x: 15,
-          y: 10,
-        },
-      ],
+      isResultadosVibracionesLibres: false,
+      isResultadosVibracionesLibresAmortiguadas: false,
+      isResultadosVibracionesForzadasAmortiguadas: false,
     };
   },
 
   methods: {
     /*Ejericio 2*/
-    vibracionesLibres_Funcion1Sistema(x, y) {
-      return -((this.k * y) / this.m);
+    vibracionesLibres_Funcion1Sistema(param) {
+      return -((this.k * param.y) / this.m);
     },
-    vibracionesLibres_Funcion2Sistema(x) {
-      return x;
+    vibracionesLibres_Funcion2Sistema(param) {
+      return param.x;
     },
     /*Ejercicio 3*/
-    vibracionesLibresAmortiguadas_Funcion1Sistema(x, y) {
-      return (-this.constanteAmortiguacion * x - this.k * y) / this.m;
+    vibracionesLibresAmortiguadas_Funcion1Sistema(param) {
+      return (
+        (-this.constanteAmortiguacion * param.x - this.k * param.y) / this.m
+      );
     },
-    vibracionesLibresAmortiguadas_Funcion2Sistema(x) {
-      return x;
+    vibracionesLibresAmortiguadas_Funcion2Sistema(param) {
+      return param.x;
     },
     /*Ejercicio 4*/
-    vibracionesForzadasAmortiguadas_Funcion1Sistema(x, y) {
-      return (-this.constanteAmortiguacion * x - this.k * y) / this.m;
+    vibracionesForzadasAmortiguadas_Funcion1Sistema(param) {
+      return (
+        (this.f_0 * Math.cos(this.w * param.t)) / this.m -
+        (this.h / this.m) * param.x -
+        this.w2_0 * param.y
+      );
     },
-    vibracionesForzadasAmortiguadas_Funcion2Sistema(x) {
-      return x;
+    vibracionesForzadasAmortiguadas_Funcion2Sistema(param) {
+      return param.x;
     },
 
     rk4_calculoParcial(funcion1Sistema, funcion2Sistema, x, y, h, t) {
-      let xk1 = funcion1Sistema(x, y);
-      let yk1 = funcion2Sistema(x, y);
+      let xk1 = funcion1Sistema({ x: x, y: y, t: t });
+      let yk1 = funcion2Sistema({ x: x, y: y, t: t });
 
-      let xk2 = funcion1Sistema(x + 0.5 * h * xk1, y + 0.5 * h * yk1);
-      let yk2 = funcion2Sistema(x + 0.5 * h * xk1, y + 0.5 * h * yk1);
+      let xk2 = funcion1Sistema({
+        x: x + 0.5 * h * xk1,
+        y: y + 0.5 * h * yk1,
+        t: t,
+      });
+      let yk2 = funcion2Sistema({
+        x: x + 0.5 * h * xk1,
+        y: y + 0.5 * h * yk1,
+        t: t,
+      });
 
-      let xk3 = funcion1Sistema(x + 0.5 * h * xk2, y + 0.5 * h * yk2);
-      let yk3 = funcion2Sistema(x + 0.5 * h * xk2, y + 0.5 * h * yk2);
+      let xk3 = funcion1Sistema({
+        x: x + 0.5 * h * xk2,
+        y: y + 0.5 * h * yk2,
+        t: t,
+      });
+      let yk3 = funcion2Sistema({
+        x: x + 0.5 * h * xk2,
+        y: y + 0.5 * h * yk2,
+        t: t,
+      });
 
-      let xk4 = funcion1Sistema(x + h * xk3, y + h * yk3);
-      let yk4 = funcion2Sistema(x + h * xk3, y + h * yk3);
+      let xk4 = funcion1Sistema({ x: x + h * xk3, y: y + h * yk3, t: t });
+      let yk4 = funcion2Sistema({ x: x + h * xk3, y: y + h * yk3, t: t });
 
-      let calculoParcialX = x + (h / 6) * (xk1 + 2 * xk2 + 2 * xk3 + xk4);
-      let calculiParcialY = y + (h / 6) * (yk1 + 2 * yk2 + 2 * yk3 + yk4);
+      let calculoParcialX = x + (h / 6) * (xk1 + 2 * xk2 + 2 * xk3 + xk4, t);
+      let calculiParcialY = y + (h / 6) * (yk1 + 2 * yk2 + 2 * yk3 + yk4, t);
 
       return { t: t, x: calculoParcialX, y: calculiParcialY };
     },
@@ -102,7 +121,7 @@ export default {
     },
   },
   mounted() {
-    console.log("Ejercicio 2");
+    /* Ejercicio 2 */
     this.resultadosVibracionesLibres = this.rk4_Sistema(
       this.vibracionesLibres_Funcion1Sistema,
       this.vibracionesLibres_Funcion2Sistema,
@@ -113,7 +132,8 @@ export default {
       0.1
     );
     this.resultadosVibracionesLibres.forEach((e) => delete e.x);
-    console.log("Ejercicio 3");
+
+    /* Ejercicio 3 */
     this.resultadosVibracionesLibresAmortiguadas = this.rk4_Sistema(
       this.vibracionesLibresAmortiguadas_Funcion1Sistema,
       this.vibracionesLibresAmortiguadas_Funcion2Sistema,
@@ -124,7 +144,20 @@ export default {
       0.1
     );
     this.resultadosVibracionesLibresAmortiguadas.forEach((e) => delete e.x);
+
+    /* Ejercicio 4 */
+    this.resultadosVibracionesForzadasAmortiguadas = this.rk4_Sistema(
+      this.vibracionesForzadasAmortiguadas_Funcion1Sistema,
+      this.vibracionesForzadasAmortiguadas_Funcion2Sistema,
+      0,
+      3,
+      0,
+      5,
+      0.1
+    );
+    this.resultadosVibracionesForzadasAmortiguadas.forEach((e) => delete e.x);
     this.isResultadosVibracionesLibres = true;
     this.isResultadosVibracionesLibresAmortiguadas = true;
+    this.isResultadosVibracionesForzadasAmortiguadas = true;
   },
 };

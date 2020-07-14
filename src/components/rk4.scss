@@ -1,0 +1,25 @@
+@import "../scss/_variables";
+
+main {
+  height: 95vh;
+  max-height: 95vh;
+  overflow-y: scroll;
+}
+
+.nav-bar {
+  background-color: $primary;
+  height: 5vh;
+}
+
+.doc-button {
+  &.btn-secondary {
+    background-color: $secondary;
+    border-color: $secondary;
+    color: white;
+  }
+  &.btn-secondary:hover {
+    background-color: $secondary-dark;
+    border-color: $secondary-dark;
+    color: white;
+  }
+}

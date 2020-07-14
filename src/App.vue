@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <rk4> </rk4>
+    <rk4></rk4>
   </div>
 </template>
 
@@ -12,23 +12,24 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 export default {
   name: "App",
   components: {
-    rk4,
-  },
+    rk4
+  }
 };
 </script>
 
 <style lang="scss">
-$backgroundColor: #2c3e50;
+@import "./scss/_variables";
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: white;
-  background-color: $backgroundColor;
+  color: black;
+  background-color: white;
 }
 
 body {
-  background-color: $backgroundColor;
+  background-color: white;
 }
 </style>
