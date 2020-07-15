@@ -1,17 +1,14 @@
 @import "../scss/_variables";
 
 main {
-  height: 95vh;
-  max-height: 95vh;
-  overflow-y: scroll;
 }
 
 .nav-bar {
   background-color: $primary;
-  height: 5vh;
 }
 
 .doc-button {
+  padding: 10px;
   &.btn-secondary {
     background-color: $secondary;
     border-color: $secondary;
