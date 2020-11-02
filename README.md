@@ -10,5 +10,6 @@ El mismo consta en la implementación del método numérico Runge Kutta, con el 
 
 #### Desarrollo
 El desarrollo del proyecto fue realizado utilizando: Vue.js, BootstrapVue y vue-chartjs. 
+
 Por otro lado, el hosting del sitio se realiza mediante la plataforma de Google: Firebase. 
 
